@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#8A2BE2" />
+  <meta name="description" content="A personalized countdown to June 16, 2027 — designed just for the wife." />
+  <title>Countdown</title>
+  <style>
+    :root {
+      --text-color: #fff;
+      --overlay-color: rgba(0, 0, 0, 0.4);
+      --bar-bg: rgba(255, 255, 255, 0.7);
+      --progress-color: #B94E5B;
+      --accent-color: #D97A8C;  /* Soft coral */
+      --font-family: 'Segoe UI', sans-serif;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden; /* Prevent vertical scroll */
+      font-family: var(--font-family);
+      color: var(--text-color);
+      background-image: url('iPhone-Wallpaper.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: var(--overlay-color); /* Dark overlay for contrast */
+      z-index: -1;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      padding: 1.5em;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    h1 {
+      color: #B94E5B;
+      font-size: 1.5em;
+      margin-bottom: 1em;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); /* Subtle depth */
+    }
+
+    .bar-container {
+      width: 100%;
+      background-color: var(--bar-bg);
+      border-radius: 20px;
+      overflow: hidden;
+      height: 24px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3); /* Visual depth */
+    }
+
+    .progress-bar {
+      height: 100%;
+      
+      background-color: var(--progress-color);
+      width: 0%;
+      transition: width 0.5s ease-in-out;
+    }
+
+    .label {
+      font-size: 1em;
+      margin-top: 0.75em;
+      color: #777777; /* Soft gray for contrast */
+    }
+
+    @media (min-width: 600px) {
+      h1 { font-size: 2em; }
+      .bar-container { height: 30px; max-width: 600px; margin: 0 auto; }
+      .label { font-size: 1.2em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Bye-Bye CUSD</h1>
+    <div class="bar-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div id="progress-remaining" class="progress-bar"></div>
+    </div>
+    <p id="label-remaining" class="label" aria-live="polite"></p>
+  </div>
+
+<script>
+// CUSD Retirement Countdown
+const startCUSD = new Date(2025, 7); // August 1, 2025
+const endCUSD = new Date(2027, 5, 16); // June 16, 2027
+
+function updateCUSDProgress() {
+  const now = new Date();
+  const total = endCUSD - startCUSD;
+  const elapsed = now - startCUSD;
+  const remaining = endCUSD - now;
+
+  const percent = Math.min((elapsed / total) * 100, 100);
+  const daysLeft = Math.max(0, Math.ceil(remaining / (1000 * 60 * 60 * 24)));
+
+  document.getElementById('progress-remaining').style.width = percent.toFixed(2) + '%';
+  document.querySelector('.bar-container').setAttribute('aria-valuenow', percent.toFixed(2));
+
+  const label = document.getElementById("label-remaining");
+  label.innerHTML =
+    percent < 100
+      ? `You're ${percent.toFixed(8)}% of the way through your final CUSD stretch. <br> Just ${daysLeft} days until retirement.`
+      : `🎉 It's here!`;
+
+  setTimeout(updateCUSDProgress, 500);
+}
+
+updateCUSDProgress();
+
+</script>
+
+
+</body>
+</html>
